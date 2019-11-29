@@ -1,12 +1,13 @@
 import React from 'react';
 import Styled from 'styled-components';
 import Proptypes from 'prop-types'
+import Comentario from './components/Comentario/index'
 
 const MainContainer = Styled.div`
 	height: 100vh;
 	width:600px;
 	display: grid;
-	grid-template:95vh 5vh/ 600px;
+	grid-template:92vh 8vh/ 600px;
 	justify-content:center;
 	align-items: center;
 	border:solid 1px black;
@@ -26,6 +27,7 @@ const ListaComentarios = Styled.div`
 	justify-content:flex-end;
 	padding:15px;
 	min-height:100%;
+	align-items:flex-start;
 `;
 
 const Formulario = Styled.div`
@@ -33,24 +35,23 @@ const Formulario = Styled.div`
 	grid-column:1/2;
 
 	display:grid;
-	grid-template:100%/125px 375px 100px;
-	/* padding:15px; */
-	/* grid-column-gap:5px; */
+	grid-template:5vh/125px 375px 100px;
 `;
 
 const InputNome = Styled.input`
-	 padding:5px 10px;
-	border-radius:15px;
+	padding:5px 10px;
+	border-radius:5px;
 	border:none;
-	 margin:10px;
-	
+	margin:10px;
+	margin-bottom:0;
 `;
 
 const BotaoEnviar = Styled.button`
 	padding:5px 10px;
-	border-radius:15px;
+	border-radius:5px;
 	border:none;
-	 margin:10px;
+	margin:10px;
+	margin-bottom:0;
 `;
 
 
@@ -63,7 +64,7 @@ function App() {
   	return (
 		<MainContainer>
 			<ListaComentarios>
-				{/* <Comentario name="" msg=""></Comentario> */}
+				<Comentario name="" msg=""></Comentario>
 			</ListaComentarios>
 			<Formulario>
 				<InputNome value="STATE" placeholder="Usuário"></InputNome>
