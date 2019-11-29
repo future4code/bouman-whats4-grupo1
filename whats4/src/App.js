@@ -2,7 +2,6 @@ import React from 'react';
 import Styled from 'styled-components';
 import Proptypes from 'prop-types'
 import Comentario from './components/Comentario/index'
-
 const MainContainer = Styled.div`
 	height: 100vh;
 	width:600px;
@@ -60,20 +59,109 @@ const BotaoEnviar = Styled.button`
 
 
 
-function App() {
-  	return (
-		<MainContainer>
-			<ListaComentarios>
-				<Comentario name="" msg=""></Comentario>
-			</ListaComentarios>
-			<Formulario>
-				<InputNome value="STATE" placeholder="Usuário"></InputNome>
-				<InputNome value="STATE" placeholder="Digite sua mensagem"></InputNome>
-				<BotaoEnviar /* onCLick={} */ >Enviar</BotaoEnviar>
-			</Formulario>
-		</MainContainer>
-  	);
+class App extends React.Component {
+	constructor(props){
+		super(props);
+		this.state = {
+			inputUsuario : "",
+			inputMensagem: "",
+			arrListaMensagem:[],
+			
+		}  
+		
+	}
+
+	/* funções */
+	controleUsuario = e => {
+		this.setState({
+		  inputUsuario: e.target.value
+		});
+	  };
+
+	controleMensagem = e => {
+	this.setState({
+		inputMensagem: e.target.value
+	});
+	};
+
+	addMensagem = () =>{
+		const novaMensagem = {nomeUsuario: this.state.inputUsuario, mensagem: this.state.inputMensagem};
+		const arrListaMensagemCopy = [...this.state.arrListaMensagem, novaMensagem];
+
+
+
+		this.setState({
+			arrListaMensagem: arrListaMensagemCopy, // 
+			inputMensagem:"",
+		});
+
+
+
+	}
+
+	apertarEnter = e =>{
+		if (e.keyCode === 13){
+			this.addMensagem()
+		}
+	}
+
+	apagarMensagem = argument =>{
+	
+		if (window.confirm('Tem certeza que deseja deletar essa mensagem?')){
+		
+			for (const msg of this.state.arrListaMensagem){
+				
+				if (this.state.arrListaMensagem.indexOf(msg)=== argument){
+					
+					const arrListaMensagemCopy = [...this.state.arrListaMensagem]
+					const index = this.state.arrListaMensagem.indexOf(msg)
+					
+					arrListaMensagemCopy.splice(index,1)
+					
+					this.setState({
+						arrListaMensagem:arrListaMensagemCopy
+					})
+					
+
+				}
+			}	
+		
+		}
+	}
+	/* render */
+
+
+	render(){
+		return (
+			<MainContainer>
+				<ListaComentarios>
+					{/* inserindo dados */}
+
+					{this.state.arrListaMensagem.map(element =>{
+						return (
+							<Comentario aoClicarDuasVezes={this.apagarMensagem} kay={this.state.arrListaMensagem.indexOf(element)} name={element.nomeUsuario} msg={element.mensagem}/>
+						)
+					})
+
+					}
+
+					
+				</ListaComentarios>
+				<Formulario>
+					<InputNome value={this.state.inputUsuario} onChange={this.controleUsuario} placeholder="Usuário"></InputNome>
+					<InputNome onKeyDown={this.apertarEnter} value={this.state.inputMensagem} onChange={this.controleMensagem} placeholder="Digite sua mensagem"></InputNome>
+					<BotaoEnviar  onClick={this.addMensagem} >Enviar</BotaoEnviar>
+				</Formulario>
+			</MainContainer>
+		);
+	}
 }
+
+InputNome.propTypes = {
+	value: Proptypes.string.isRequired
+}
+
+
 
 
 export default App;

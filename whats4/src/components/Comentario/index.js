@@ -11,8 +11,20 @@ const MainContainer = Styled.div`
     background-color:white;
     display:flex;
     flex-direction:column;
+
     align-items:flex-start;
-    text-align:left;
+
+
+
+    align-self:${props => {
+        if(props.name === 'Eu'){
+            return 'flex-end'
+        } else {
+            console.log(props.name)
+            return 'flex-start'
+        }
+    }}
+    }
 `;
 
 const NomeUsuario = Styled.p`
@@ -26,12 +38,20 @@ const MensagemDoUsuario = Styled.p`
 
 `;
 
-function Comentario() {
+function Comentario(props) {
     return (
-        <MainContainer>
-            <NomeUsuario></NomeUsuario>
-            <MensagemDoUsuario></MensagemDoUsuario>
+        <MainContainer onDoubleClick={() =>{
+            props.aoClicarDuasVezes(props.kay);
+        }}>
+            <NomeUsuario>{props.name}</NomeUsuario>
+            <MensagemDoUsuario>{props.msg}</MensagemDoUsuario>
         </MainContainer>
     )}
 
+Comentario.propTypes ={
+    name: Proptypes.string.isRequired,
+    msg:Proptypes.string.isRequired
+} 
+
     export default Comentario
+
